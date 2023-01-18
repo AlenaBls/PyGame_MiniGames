@@ -1,5 +1,6 @@
 import pygame as pg
 from helper_def import *
+from level import *
 
 
 class Race:
@@ -8,8 +9,8 @@ class Race:
 
         pg.display.set_caption('Race')
         self.screen = pg.display.set_mode((800, 600))
+        self.buttons = pg.sprite.Group()
         clock = pg.time.Clock()
-        fps = 20
 
         running = True
 
@@ -17,14 +18,18 @@ class Race:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     running = False
-            self.render()
-            clock.tick(fps)
+            self.render(self.buttons)
             pg.display.flip()
 
-    def render(self):
+    def render(self, group):
         self.screen.fill(pg.Color('#474a51'))
-        pg.draw.rect(self.screen, pg.Color('black'), (150, 100, 500, 400))
-        interface(self)
+        name = pg.sprite.Sprite()
+        name.image = load_img('race', 'race_name.png')
+        name.rect = name.image.get_rect()
+        name.rect.x, name.rect.y = [225, 0]
+        group.add(name)
+        interface(self, group)
+        generate_level(self, load_level('level.txt'))
 
 
 if __name__ == '__main__':
