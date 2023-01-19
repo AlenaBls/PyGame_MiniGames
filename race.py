@@ -10,6 +10,8 @@ class Race:
         pg.display.set_caption('Race')
         self.screen = pg.display.set_mode((800, 600))
         self.buttons = pg.sprite.Group()
+        self.fps = 30
+        self.num = 1
         clock = pg.time.Clock()
 
         running = True
@@ -19,7 +21,12 @@ class Race:
                 if event.type == pg.QUIT:
                     running = False
             self.render(self.buttons)
+            self.update_back()
+            self.num = (self.num + 1) % 16
+            clock.tick(self.fps)
             pg.display.flip()
+
+        pg.quit()
 
     def render(self, group):
         self.screen.fill(pg.Color('#474a51'))
@@ -29,7 +36,10 @@ class Race:
         name.rect.x, name.rect.y = [225, 0]
         group.add(name)
         interface(self, group)
-        generate_level(self, load_level('level.txt'))
+        generate_level(load_level('level.txt'))
+
+    def update_back(self):
+        generate_back(load_back('decor.txt', self.num))
 
 
 if __name__ == '__main__':
