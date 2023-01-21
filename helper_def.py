@@ -1,7 +1,5 @@
 import os
 import sys
-import PIL
-from PIL import Image
 import constants
 import pygame as pg
 
@@ -30,7 +28,7 @@ def load_back(filename, num):
     filename = "data/race/" + filename
     with open(filename, 'r') as mapFile:
         back_map = []
-        for i in range(24):
+        for i in range(23, -1, -1):
             a = [str(line) for line in mapFile.readline().split()]
             if i in list(range(num, num + 8)):
                 back_map.append(a)
@@ -77,3 +75,14 @@ race_tile_images = {
     'lamp_tr': load_img('race/tiles', 'lamp_tr.png')
 }
 
+race_car_images = {
+    'npc_grey': load_img('race/cars', 'npc_grey.png'),
+    'npc_grn': load_img('race/cars', 'npc_grn.png'),
+    'npc_org': load_img('race/cars', 'npc_org.png'),
+}
+
+race_player_images = {
+    'player_grey': load_img('race/cars', 'player_grey.png'),
+    'player_grn': load_img('race/cars', 'player_grn.png'),
+    'player_org': load_img('race/cars', 'player_org.png'),
+}

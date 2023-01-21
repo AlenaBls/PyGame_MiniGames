@@ -6,3 +6,7 @@ Y = [200, 240, 160, 330, 200, 160, 310, 380]
 
 race_tile_width = race_tile_height = 50
 
+PLAYERS = ['player_grn', 'player_org', 'player_grey']
+
+CARS = ['npc_grn', 'npc_org', 'npc_grey']
+
