@@ -24,15 +24,15 @@ def load_level(filename):
     return list(level_map for i in range(8))
 
 
-def load_back(filename, num):
+def load_back(filename):
     filename = "data/race/" + filename
     with open(filename, 'r') as mapFile:
         back_map = []
-        for i in range(23, -1, -1):
+        for i in range(12):
             a = [str(line) for line in mapFile.readline().split()]
-            if i in list(range(num, num + 8)):
-                back_map.append(a)
+            back_map.append(a)
 
+    print(back_map)
     return back_map
 
 

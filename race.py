@@ -12,8 +12,10 @@ class Race:
         self.buttons = pg.sprite.Group()
         self.player, image = get_player()
         image = load_img('race/cars', image + '.png')
+        generate_level(load_level('level.txt'))
+        generate_back(load_back('decor.txt'))
+        self.num = 20
         self.fps = 10
-        self.num = 1
         self.score = 0
         clock = pg.time.Clock()
 
@@ -31,7 +33,6 @@ class Race:
             self.create_game()
             game_over = Cars.check(cars_group, self.player)
             pg.display.flip()
-            self.num = (self.num + 1) % 16
             self.score += 5
             if game_over:
                 start_again(self.screen)
@@ -45,10 +46,13 @@ class Race:
 
     def create_game(self):
         self.render(self.buttons)
+        tiles_group.draw(self.screen)
         player_group.draw(self.screen)
-        spawn_cars(self.score)
+        spawn_cars(self.score, self.num)
         cars_group.draw(self.screen)
-        generate_back(load_back('decor.txt', self.num))
+        back_group.draw(self.screen)
+        self.close()
+        Back.update(self, back_group)
         font = pg.font.Font(None, 40)
         text = font.render('Score: ' + str(self.score), True, (255, 255, 255))
         self.screen.blit(text, (320, 525))
@@ -61,7 +65,12 @@ class Race:
         name.rect.x, name.rect.y = [225, 0]
         group.add(name)
         interface(self, group)
-        generate_level(load_level('level.txt'))
+
+    def close(self):
+        pg.draw.rect(self.screen, (pg.Color('#474a51')), (150, 0, 50, 100))
+        pg.draw.rect(self.screen, (pg.Color('#474a51')), (150, 500, 50, 100))
+        pg.draw.rect(self.screen, (pg.Color('#474a51')), (600, 0, 50, 100))
+        pg.draw.rect(self.screen, (pg.Color('#474a51')), (600, 500, 50, 100))
 
 
 if __name__ == '__main__':

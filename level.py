@@ -31,7 +31,6 @@ def generate_level(mape):
                 Tile('plit_r', x, y)
             elif mape[y][x] == '7':
                 Tile('grass_r', x, y)
-    tiles_group.draw(screen)
 
 
 def generate_back(mape):
@@ -67,8 +66,8 @@ def generate_back(mape):
                 Back('bench_b3r', x, y - 2)
 
 
-def spawn_cars(score):
-    if score % 50 == 0 and score != 0:
+def spawn_cars(score, num):
+    if score % num == 0 and score != 0:
         Cars(CARS[randint(0, 2)], randint(250, 500), 50)
     cars_group.update()
 
@@ -125,13 +124,14 @@ class Tile(pg.sprite.Sprite):
 
 class Back(pg.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
-        screen = pg.display.get_surface()
         super().__init__(back_group)
         self.image = race_tile_images[tile_type]
         self.rect = self.image.get_rect().move(
-            race_tile_width * pos_x + 150, race_tile_height * pos_y + 100)
-        back_group.draw(screen)
-        self.kill()
+            race_tile_width * pos_x + 150, race_tile_height * pos_y)
+
+    def update(self, group):
+        for tile in group:
+            tile.rect = tile.image.get_rect().move(tile.rect.x, (tile.rect.y + 50) % 600)
 
 
 class Player(pg.sprite.Sprite):
