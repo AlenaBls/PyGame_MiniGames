@@ -32,7 +32,6 @@ def load_back(filename):
             a = [str(line) for line in mapFile.readline().split()]
             back_map.append(a)
 
-    print(back_map)
     return back_map
 
 

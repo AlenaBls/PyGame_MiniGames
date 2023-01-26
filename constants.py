@@ -10,3 +10,4 @@ PLAYERS = ['player_grn', 'player_org', 'player_grey']
 
 CARS = ['npc_grn', 'npc_org', 'npc_grey']
 
+CARS_FOR_START = ['player_grn.png', 'player_org.png', 'player_grey.png']

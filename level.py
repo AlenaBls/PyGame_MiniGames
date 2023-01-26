@@ -5,7 +5,6 @@ from constants import *
 from random import randint
 import pygame as pg
 
-all_sprites = pg.sprite.Group()
 tiles_group = pg.sprite.Group()
 back_group = pg.sprite.Group()
 player_group = pg.sprite.Group()
@@ -13,8 +12,6 @@ cars_group = pg.sprite.Group()
 
 
 def generate_level(mape):
-    screen = pg.display.get_surface()
-    x, y = None, None
     for y in range(len(mape)):
         for x in range(len(mape[y])):
             if mape[y][x] == '0':
@@ -34,7 +31,6 @@ def generate_level(mape):
 
 
 def generate_back(mape):
-    x, y = None, None
     for y in range(len(mape)):
         for x in range(len(mape[y])):
             if mape[y][x] == '1':
@@ -72,10 +68,16 @@ def spawn_cars(score, num):
     cars_group.update()
 
 
-def get_player():
-    player_image = PLAYERS[randint(0, 2)]
-    player = Player(player_image, 375, 450)
-    return player, player_image
+def get_player(chosen_car):
+    if chosen_car is None:
+        player_image = PLAYERS[randint(0, 2)]
+        player = Player(player_image, 375, 450)
+        return player, player_image
+
+    else:
+        player_image = chosen_car[:-4]
+        player = Player(player_image, 375, 450)
+        return player, player_image
 
 
 def move(direction, image, player):
@@ -95,23 +97,6 @@ def check(num):
         return num + 50
     else:
         return num
-
-
-def start_again(screen):
-    screen.fill(pg.Color('#474a51'))
-    font = pg.font.Font(None, 50)
-    text = font.render('Game over!', True, (255, 255, 255))
-    screen.blit(text, (200, 250))
-    text = font.render('Click to start again', True, (255, 255, 255))
-    screen.blit(text, (200, 300))
-    pg.display.flip()
-    waiting = True
-    while waiting:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-            if event.type == pg.MOUSEBUTTONDOWN:
-                waiting = False
 
 
 class Tile(pg.sprite.Sprite):
@@ -136,7 +121,6 @@ class Back(pg.sprite.Sprite):
 
 class Player(pg.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
-        screen = pg.display.get_surface()
         super().__init__(player_group)
         self.image = race_player_images[tile_type]
         self.rect = self.image.get_rect().move(pos_x, pos_y)
@@ -145,7 +129,6 @@ class Player(pg.sprite.Sprite):
 
 class Cars(pg.sprite.Sprite):
     def __init__(self, tile_type, pos_x, pos_y):
-        screen = pg.display.get_surface()
         super().__init__(cars_group)
         self.image = race_car_images[tile_type]
         self.rect = self.image.get_rect().move(pos_x, pos_y)
@@ -163,6 +146,3 @@ class Cars(pg.sprite.Sprite):
                 key *= 0
         if key == 0:
             return True
-
-
-
